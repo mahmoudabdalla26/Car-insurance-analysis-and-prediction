@@ -16,5 +16,5 @@ st.write(df_before)
 st.write('Car Insurance Claims Dataset After Cleaning And Preprocessing:')
 
 # Reading and displaying the cleaned dataset
-df_after = pd.read_csv(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\cleaned_data.csv")
+df_after = pd.read_csv(r"car_insurance/Sourse/cleaned_data.csv")
 st.write(df_after)
