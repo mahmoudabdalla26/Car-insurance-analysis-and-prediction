@@ -4,9 +4,9 @@ import joblib
 import numpy as np
 
 # Load the pre-trained model, scaler, and feature columns
-model = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\best_model.pkl")
-scaler = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\scaler.pkl")
-feature_columns = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\feature_columns.pkl")
+model = joblib.load(r"car_insurance/Sourse/best_model.pkl")
+scaler = joblib.load(r"car_insurance/Sourse/scaler.pkl")
+feature_columns = joblib.load(r"car_insurance/Sourse/feature_columns.pkl")
 
 # Streamlit app title
 st.title('Car Insurance Claim Prediction')
