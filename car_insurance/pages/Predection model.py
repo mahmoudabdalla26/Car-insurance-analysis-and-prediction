@@ -76,7 +76,7 @@ input_data = pd.DataFrame({
     'steering_type': [steering_type],
     'gross_weight': [gross_weight],
     'displacement': [displacement],
-    'turning_radius': [turning_radius],
+        'turning_radius': [turning_radius],
     'is_front_fog_lights': [is_front_fog_lights],
     'is_rear_window_wiper': [is_rear_window_wiper],
     'is_rear_window_washer': [is_rear_window_washer],
@@ -96,32 +96,34 @@ input_data = pd.DataFrame({
     'is_parking_camera': [is_parking_camera]
 })
 
-# Encode categorical variables
-input_data_encoded = pd.get_dummies(input_data, columns=['segment', 'fuel_type', 'transmission_type', 'steering_type', 'rear_brakes_type'])
+# Ensure the order of columns matches the training data
+input_data = input_data[feature_columns]
 
-# Ensure input data has all feature columns, adding missing columns if necessary
-for column in feature_columns:
-    if column not in input_data_encoded.columns:
-        input_data_encoded[column] = 0
+# Scale the input data using the same scaler as the training data
+input_data_scaled = scaler.transform(input_data)
 
-input_data_encoded = input_data_encoded[feature_columns]
+# Predict the probability of a claim
+prediction_proba = model.predict_proba(input_data_scaled)[0][1]
 
-# Scale input data
-input_data_scaled = scaler.transform(input_data_encoded)
+# Set a threshold based on your previous analysis
+threshold = 0.5  # Example threshold, adjust based on your F1 score analysis
 
-# Prediction button
-if st.button('Predict'):
-    try:
-        # Predict probabilities
-        prediction_proba = model.predict_proba(input_data_scaled)
-        
-        # Adjust the threshold
-        threshold = 0.51  # Example threshold; you may adjust based on validation
-        prediction = (prediction_proba[:, 1] >= threshold).astype(int)
+# Make the final prediction based on the threshold
+prediction = int(prediction_proba >= threshold)
 
-        # Output prediction
-        st.subheader('Prediction')
-        st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
-        st.write(f'Probability: {prediction_proba[0][1]:.2f}')
-    except Exception as e:
-        st.error(f'An error occurred: {str(e)}')
+# Display the prediction
+st.subheader('Prediction:')
+if prediction == 1:
+    st.write(f"There is a high chance of a claim with a probability of {prediction_proba:.2f}.")
+else:
+    st.write(f"There is a low chance of a claim with a probability of {prediction_proba:.2f}.")
+
+# Provide some context or advice based on the prediction
+st.subheader('Advice:')
+if prediction == 1:
+    st.write("It is advisable to review your car insurance policy and ensure you have adequate coverage.")
+else:
+    st.write("Your current car insurance policy seems sufficient, but it's always good to review it periodically.")
+
+# End of the Streamlit app
+
