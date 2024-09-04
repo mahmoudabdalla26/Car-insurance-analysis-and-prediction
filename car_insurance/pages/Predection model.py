@@ -109,8 +109,12 @@ input_data = preprocessor.transform(input_data)
 if st.button('Predict'):
     # Predict probabilities
     prediction_proba = model.predict_proba(input_data)
-    prediction = model.predict(input_data)
-    # Output prediction
-    st.subheader('Prediction')
-    st.write(prediction)
-    st.write(prediction_proba)
+    # Output prediction when the button is clicked
+if st.button('Predict'):
+    if prediction[0] == 0:
+        st.success('Your customer will NOT make a claim.')
+    elif prediction[0] == 1:
+        st.error('Your customer WILL make a claim.')
+    
+    # Display the probability of the prediction
+    st.write(f"Prediction probability: {prediction_proba[0]}")
