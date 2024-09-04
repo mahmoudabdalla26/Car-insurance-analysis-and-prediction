@@ -76,7 +76,7 @@ input_data = pd.DataFrame({
     'steering_type': [steering_type],
     'gross_weight': [gross_weight],
     'displacement': [displacement],
-        'turning_radius': [turning_radius],
+    'turning_radius': [turning_radius],
     'is_front_fog_lights': [is_front_fog_lights],
     'is_rear_window_wiper': [is_rear_window_wiper],
     'is_rear_window_washer': [is_rear_window_washer],
