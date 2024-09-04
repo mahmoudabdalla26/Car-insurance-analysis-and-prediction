@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 
 # Load the pre-trained model, scaler, and feature columns
-model = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\model.pkl")
+model = joblib.load("car_insurance/Sourse/model.zip")
 preprocessor = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\preprocessor.pkl")
 #feature_columns = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\feature_columns.pkl")
 
