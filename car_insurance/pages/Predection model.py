@@ -93,20 +93,21 @@ input_data = pd.DataFrame({
 })
 
 # One-hot encode input data
-input_data_encoded = pd.get_dummies(input_data)
+input_data_encoded = pd.get_dummies(input_data, columns=['segment', 'fuel_type', 'transmission_type', 'steering_type', 'rear_brakes_type'])
 
-# Reindex input data to match the feature columns used during training
-input_data_encoded = input_data_encoded.reindex(columns=feature_columns, fill_value=0)
+# Ensure input data has all feature columns, adding missing columns if necessary
+for column in feature_columns:
+    if column not in input_data_encoded.columns:
+        input_data_encoded[column] = 0
 
-# Check for missing values
-if input_data_encoded.isnull().sum().sum() > 0:
-    st.error("Some input fields are missing. Please ensure all fields are filled in correctly.")
-else:
-    # Scale features
-    input_data_scaled = scaler.transform(input_data_encoded)
+input_data_encoded = input_data_encoded[feature_columns]
 
-    # Prediction button
-    if st.button('Predict'):
+# Scale input data
+input_data_scaled = scaler.transform(input_data_encoded)
+
+# Prediction button
+if st.button('Predict'):
+    try:
         # Predict probabilities
         prediction_proba = model.predict_proba(input_data_scaled)
         
@@ -118,3 +119,5 @@ else:
         st.subheader('Prediction')
         st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
         st.write(f'Probability: {prediction_proba[0][1]:.2f}')
+    except Exception as e:
+        st.error(f'An error occurred: {str(e)}')
