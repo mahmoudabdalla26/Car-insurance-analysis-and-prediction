@@ -110,7 +110,17 @@ if st.button('Predict'):
     # Predict probabilities
     prediction_proba = model.predict_proba(input_data)
     prediction = model.predict(input_data)
-    # Output prediction
-    st.subheader('Prediction')
-    st.write(prediction)
-    st.write(prediction_proba)
+
+    # Display prediction result with a subheader and formatted text
+    st.subheader('Prediction Result')
+
+    if prediction[0] == 0:
+        st.success('✅ Your customer will NOT make a claim.')
+    elif prediction[0] == 1:
+        st.error('⚠️ Your customer WILL make a claim.')
+
+    # Display prediction probabilities with a styled subheader
+    st.subheader('Prediction Probability')
+    st.write(f"**Probability of Not Claiming:** {prediction_proba[0][0]:.2%}")
+    st.write(f"**Probability of Claiming:** {prediction_proba[0][1]:.2%}")
+
