@@ -16,7 +16,7 @@ st.markdown(''' <center>  <h6>
 col1, col2, col3 = st.columns([1,3,1])
 
 with col2:
-    st.image("https://cdnl.iconscout.com/lottie/premium/preview-watermark/accident-insurance-animation-download-in-lottie-json-gif-static-svg-file-formats--car-coverage-auto-claim-collision-crash-pack-services-animations-7487779.mp4", width=500)
+    st.image("https://static.pbcdn.in/cdn/images/articles/car/importance-and-benefits-of-comprehensive-car-insurance-policy.jpg", width=500)
 st.markdown('''
 <center> <h10>
             Done by : Mahmoud Abdelhamid <br>
