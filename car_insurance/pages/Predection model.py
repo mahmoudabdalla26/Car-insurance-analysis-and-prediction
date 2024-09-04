@@ -2,9 +2,13 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
+import zipfile
+import io
 
-# Load the pre-trained model, scaler, and feature columns
-model = joblib.load("car_insurance/Sourse/model.zip")
+# Load the model from a ZIP file
+with zipfile.ZipFile("car_insurance/Sourse/model.zip", 'r') as z:
+    with z.open('model.pkl') as f:  # Replace 'model.pkl' with the actual filename inside the zip
+        model = joblib.load(f)
 preprocessor = joblib.load("car_insurance/Sourse/preprocessor.pkl")
 
 # Streamlit app title
