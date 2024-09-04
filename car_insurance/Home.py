@@ -16,7 +16,7 @@ st.markdown(''' <center>  <h6>
 col1, col2, col3 = st.columns([1,3,1])
 
 with col2:
-    st.image("https://iconscout.com/lottie-animation/accident-insurance-9169106 ", width=500)
+    st.image("https://images.app.goo.gl/4B7nRnN1myHXfywc8", width=500)
 st.markdown('''
 <center> <h10>
             Done by : Mahmoud Abdelhamid <br>
