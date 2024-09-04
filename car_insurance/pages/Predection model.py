@@ -1,11 +1,18 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
 
 # Load the pre-trained model, scaler, and feature columns
 model = joblib.load(r"car_insurance/Sourse/best_model.pkl")
 scaler = joblib.load(r"car_insurance/Sourse/scaler.pkl")
 feature_columns = joblib.load(r"car_insurance/Sourse/feature_columns.pkl")
+
+# Ensure model is a DecisionTreeClassifier
+if not isinstance(model, DecisionTreeClassifier):
+    st.error('The loaded model is not a DecisionTreeClassifier.')
+    st.stop()
 
 # Streamlit app title
 st.title('Car Insurance Claim Prediction')
@@ -92,7 +99,7 @@ input_data = pd.DataFrame({
     'is_parking_camera': [is_parking_camera]
 })
 
-# One-hot encode input data
+# Encode categorical variables
 input_data_encoded = pd.get_dummies(input_data, columns=['segment', 'fuel_type', 'transmission_type', 'steering_type', 'rear_brakes_type'])
 
 # Ensure input data has all feature columns, adding missing columns if necessary
