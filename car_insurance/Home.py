@@ -14,7 +14,7 @@ st.markdown(''' <center>  <h6>
             unsafe_allow_html=True)
 
 # Open the image file
-image = Image.open(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\WhatsApp Image 2024-09-03 at 12.44.33_9e1eda42.jpg")
+image = Image.open(r"car_insurance/Sourse/WhatsApp Image 2024-09-03 at 12.44.33_9e1eda42.jpg")
 
 # Define desired width and height
 desired_width = 250

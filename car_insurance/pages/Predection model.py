@@ -1,12 +1,15 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 # Load the pre-trained model, scaler, and feature columns
-model = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\best_model.pkl")
-scaler = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\scaler.pkl")
-feature_columns = joblib.load(r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\feature_columns.pkl")
+model = joblib.load(r"car_insurance/Sourse/random_forest_model.pkl")
+scaler = joblib.load(r"car_insurance/Sourse/scaler.pkl")
+feature_columns = joblib.load(r"car_insurance/Sourse/feature_columns.pkl")
+
+# Check the type of the loaded model
+model_type = type(model).__name__
 
 # Streamlit app title
 st.title('Car Insurance Claim Prediction')
@@ -93,30 +96,34 @@ input_data = pd.DataFrame({
     'is_parking_camera': [is_parking_camera]
 })
 
-# One-hot encode input data
-input_data_encoded = pd.get_dummies(input_data)
+# Encode categorical variables
+input_data_encoded = pd.get_dummies(input_data, columns=['segment', 'fuel_type', 'transmission_type', 'steering_type', 'rear_brakes_type'])
 
-# Reindex input data to match the feature columns used during training
-input_data_encoded = input_data_encoded.reindex(columns=feature_columns, fill_value=0)
+# Ensure input data has all feature columns, adding missing columns if necessary
+for column in feature_columns:
+    if column not in input_data_encoded.columns:
+        input_data_encoded[column] = 0
 
-# Scale features
+input_data_encoded = input_data_encoded[feature_columns]
+
+# Scale input data
 input_data_scaled = scaler.transform(input_data_encoded)
-
-# Predict using the model
-prediction = model.predict(input_data_scaled)
-prediction_proba = model.predict_proba(input_data_scaled)
-
 
 # Prediction button
 if st.button('Predict'):
-    # Predict probabilities
-    prediction_proba = model.predict_proba(input_data_scaled)
-    
-    # Adjust the threshold
-    threshold = 0.51  # Example threshold; you may adjust based on validation
-    prediction = (prediction_proba[:, 1] >= threshold).astype(int)
+    try:
+        # Predict probabilities
+        prediction_proba = model.predict_proba(input_data_scaled)
+        
+        # Adjust the threshold
+        threshold = 0.51  # Example threshold; you may adjust based on validation
+        prediction = (prediction_proba[:, 1] >= threshold).astype(int)
 
-    # Output prediction
-    st.subheader('Prediction')
-    st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
-    st.write(f'Probability: {prediction_proba[0][1]:.2f}')
+        # Output prediction
+        st.subheader('Prediction')
+        st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
+        st.write(f'Probability: {prediction_proba[0][1]:.2f}')
+    except Exception as e:
+        st.error(f'An error occurred: {str(e)}')
+# End of the Streamlit app
+

@@ -4,7 +4,7 @@ import streamlit as st
 from MEDA import load_data, clean_data, create_pie_chart, create_histograms, create_histogram_subplots, correlation_heatmap
 
 # Constants
-FILE_PATH = r"C:\Users\Lenovo\Desktop\final_project\car_insurance\Sourse\modified_train_subset.csv"
+FILE_PATH = r"car_insurance/Sourse/modified_train_subset.csv"
 NUMERICAL_COLUMNS = ['policy_tenure', 'age_of_car', 'age_of_policyholder', 'population_density', 'make',
                      'airbags', 'displacement', 'cylinder', 'gear_box', 'length', 'width', 'height',
                      'gross_weight', 'ncap_rating', 'turning_radius']
