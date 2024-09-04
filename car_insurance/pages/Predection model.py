@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import numpy as np
 
 # Load the pre-trained model, scaler, and feature columns
 model = joblib.load(r"car_insurance/Sourse/best_model.pkl")
@@ -99,24 +98,23 @@ input_data_encoded = pd.get_dummies(input_data)
 # Reindex input data to match the feature columns used during training
 input_data_encoded = input_data_encoded.reindex(columns=feature_columns, fill_value=0)
 
-# Scale features
-input_data_scaled = scaler.transform(input_data_encoded)
+# Check for missing values
+if input_data_encoded.isnull().sum().sum() > 0:
+    st.error("Some input fields are missing. Please ensure all fields are filled in correctly.")
+else:
+    # Scale features
+    input_data_scaled = scaler.transform(input_data_encoded)
 
-# Predict using the model
-prediction = model.predict(input_data_scaled)
-prediction_proba = model.predict_proba(input_data_scaled)
+    # Prediction button
+    if st.button('Predict'):
+        # Predict probabilities
+        prediction_proba = model.predict_proba(input_data_scaled)
+        
+        # Adjust the threshold
+        threshold = 0.51  # Example threshold; you may adjust based on validation
+        prediction = (prediction_proba[:, 1] >= threshold).astype(int)
 
-
-# Prediction button
-if st.button('Predict'):
-    # Predict probabilities
-    prediction_proba = model.predict_proba(input_data_scaled)
-    
-    # Adjust the threshold
-    threshold = 0.51  # Example threshold; you may adjust based on validation
-    prediction = (prediction_proba[:, 1] >= threshold).astype(int)
-
-    # Output prediction
-    st.subheader('Prediction')
-    st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
-    st.write(f'Probability: {prediction_proba[0][1]:.2f}')
+        # Output prediction
+        st.subheader('Prediction')
+        st.write(f'Predicted Class: {"Claim" if prediction[0] == 1 else "No Claim"}')
+        st.write(f'Probability: {prediction_proba[0][1]:.2f}')
