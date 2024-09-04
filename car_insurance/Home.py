@@ -13,15 +13,13 @@ st.markdown(''' <center>  <h6>
     This app is created to analyze and predict the likelihood of policyholders filing a car insurance claim. </center> </h6> ''', 
             unsafe_allow_html=True)
 
-# Open the image file
-image = Image.open(r"car_insurance/Sourse/WhatsApp Image 2024-09-03 at 12.44.33_9e1eda42.jpg")
+col1, col2, col3 = st.columns([1,3,1])
 
-# Define desired width and height
-desired_width = 250
-desired_height = 200
-
-# Resize the image
-resized_image = image.resize((desired_width, desired_height))
-
-# Display the resized image using Streamlit
-st.image(resized_image, caption='Car Insurance Claim Prediction', use_column_width=True)
+with col2:
+    st.image("https://iconscout.com/lottie-animation/accident-insurance-9169106 ", width=500)
+st.markdown('''
+<center> <h10>
+            Done by : Mahmoud Abdelhamid <br>
+            Supervised by : Epsilon AI <br>
+            
+            ''',unsafe_allow_html=True)
