@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
 
 # Load the pre-trained model, scaler, and feature columns
@@ -9,10 +8,8 @@ model = joblib.load(r"car_insurance/Sourse/best_model.pkl")
 scaler = joblib.load(r"car_insurance/Sourse/scaler.pkl")
 feature_columns = joblib.load(r"car_insurance/Sourse/feature_columns.pkl")
 
-# Ensure model is a DecisionTreeClassifier
-if not isinstance(model, DecisionTreeClassifier):
-    st.error('The loaded model is not a DecisionTreeClassifier.')
-    st.stop()
+# Check the type of the loaded model
+model_type = type(model).__name__
 
 # Streamlit app title
 st.title('Car Insurance Claim Prediction')
