@@ -5,4 +5,4 @@ datasist==1.5.3
 streamlit==1.32.2
 Pillow==10.4.0
 plotly==5.18.0
-scikit-learn>=1.0
+scikit-learn==1.3.2
