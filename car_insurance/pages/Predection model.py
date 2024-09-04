@@ -4,7 +4,7 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 
 # Load the pre-trained model, scaler, and feature columns
-model = joblib.load(r"car_insurance/Sourse/model.pkl")
+model = joblib.load(r"car_insurance/Sourse/random_forest_model.pkl")
 scaler = joblib.load(r"car_insurance/Sourse/scaler.pkl")
 feature_columns = joblib.load(r"car_insurance/Sourse/feature_columns.pkl")
 
